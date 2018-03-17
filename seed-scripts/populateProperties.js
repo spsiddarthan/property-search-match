@@ -1,5 +1,5 @@
 let cities = require('cities.json');
-const Property = require('./models/property.js');
+const Property = require('../models/property.js');
 const redis = require('redis');
 
 const client = redis.createClient();
