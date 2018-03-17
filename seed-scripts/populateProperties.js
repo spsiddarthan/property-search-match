@@ -1,8 +1,7 @@
 let cities = require('cities.json');
 const Property = require('../models/property.js');
-const redis = require('redis');
 
-const client = redis.createClient();
+// setting a random list of prices and number of bedrooms and bathrooms
 const prices = [1000, 2000, 3000, 4000, 5000, 6000, 7000];
 const bedrooms = [1, 2, 3, 4, 5, 6, 7];
 
