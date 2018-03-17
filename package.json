@@ -1,0 +1,19 @@
+{
+  "name": "cities",
+  "version": "1.0.0",
+  "description": "",
+  "main": "config.js",
+  "dependencies": {
+    "async": "^2.6.0",
+    "cities.json": "^1.1.2",
+    "pg": "^7.4.1",
+    "redis": "^2.8.0",
+    "sequelize": "^4.37.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
