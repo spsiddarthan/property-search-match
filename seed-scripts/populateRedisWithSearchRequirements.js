@@ -6,7 +6,7 @@ const async = require('async');
 
 const populateRedisWithSearchRequirements = async () => {
   const searchRequirements = await SearchRequirement.findAll({
-    attributes: { exclude: ['minBudget', 'maxBudget', 'minnoofbathrooms', 'maxnoofbathrooms','minnofbedrooms','maxnofbedrooms'] },
+    attributes: { exclude: ['minBudget', 'maxBudget', 'minnoofbathrooms', 'maxnoofbathrooms', 'minnofbedrooms', 'maxnofbedrooms'] },
   }).map(requirement => (requirement.dataValues));
 
   async.each(
