@@ -129,10 +129,12 @@ cities and search requirements to confirm that the solution scaled, and it did.
    
    Make a requesy to these end points like this and see the matches (see below section for matches computation) being 
    returned immediately.
-   Sample JSON body for `http://139.59.6.142:5000/search-requirement`
+   Sample JSON body for http://139.59.6.142:5000/search-requirement and        
+   Sample JSON body for http://139.59.6.142:5000/property are shown below.
+
    
 
-    ```
+   
      
         {
          "minNoOfBathrooms" : 1,
@@ -144,21 +146,15 @@ cities and search requirements to confirm that the solution scaled, and it did.
          "latitude" : 74.001010,
          "longitude" : 40.1028029
          }
-      ```
-   
-   
-       Sample JSON body for `http://139.59.6.142:5000/property`
-      ```
-
+  
         {
          "noofbathrooms" : 3,
          "noofbedrooms": 3,
          "price" : "3526",
          "latitude" : 74.001010,
          "longitude" : 40.1028029
-         }
-   
-      ```
+        }
+  
 
 # Computing the match percentage.
 
