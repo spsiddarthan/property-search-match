@@ -1,3 +1,6 @@
+## Problem Statement.
+Whenever new search criteria or a new property gets added, output a list of matches. That is, if I enter a new property, I output a list of matched search criterions with the match % and if I enter a new search criterion, I output a list of matched properties with the match %.
+
 ## Tech stack used to solved the problem and environment.
 Express and Node were used to build the two backend end points. 
 
