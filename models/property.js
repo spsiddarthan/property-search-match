@@ -31,6 +31,6 @@ const Property = dbConn.define('Property', {
 }, {
   timestamps: false,
 });
-// dbConn.sync({force: true});
+//dbConn.sync({force: true});
 module.exports = Property;
 
