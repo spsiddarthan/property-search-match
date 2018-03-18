@@ -1,14 +1,15 @@
 const Property = require('../models/property.js');
 const SearchRequirement = require('../models/searchRequirement.js');
 const redis = require('redis');
-const redisClient = redis.createClient();
+const config = require('../config.js')
+const redisClient = redis.createClient(config.redisPort, config.redisHost);
 const _ = require('underscore');
 const getDistanceMatchPercentage = require('../match-calculators/getDistanceMatchPercentage.js');
 const getBudgetMatchPercentage = require('../match-calculators/getBudgetMatchPercentage.js');
 // The logic to compute the percentage contribution is same for
 // bed rooms and bath rooms and hence adding a single file.
-const getBedroomMatchPercentage = require('../match-calculators/getBedroomMatchPercentage.js');
-const getBathroomMatchPercentage = require('../match-calculators/getBedroomMatchPercentage.js');
+const getBedroomMatchPercentage = require('../match-calculators/getBedRoomMatchPercentage.js');
+const getBathroomMatchPercentage = require('../match-calculators/getBedRoomMatchPercentage.js');
 
 const getMatches = async (requirementsRedisReply, property) => {
   const requirementDistanceMap = {};

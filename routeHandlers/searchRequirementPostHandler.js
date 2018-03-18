@@ -7,8 +7,8 @@ const getDistanceMatchPercentage = require('../match-calculators/getDistanceMatc
 const getBudgetMatchPercentage = require('../match-calculators/getBudgetMatchPercentage.js');
 // The logic to compute the percentage contribution is same for
 // bed rooms and bath rooms and hence adding a single file.
-const getBedroomMatchPercentage = require('../match-calculators/getBedroomMatchPercentage.js');
-const getBathroomMatchPercentage = require('../match-calculators/getBedroomMatchPercentage.js');
+const getBedroomMatchPercentage = require('../match-calculators/getBedRoomMatchPercentage.js');
+const getBathroomMatchPercentage = require('../match-calculators/getBedRoomMatchPercentage.js');
 
 const getMatches = async (propertiesRedisReply, requirement) => {
   const propertyDistanceMap = {};
