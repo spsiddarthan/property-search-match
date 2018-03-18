@@ -221,3 +221,13 @@ problem statement doesn't specifically speak about it.
 
 A summation of all the match percentages give us the total match percentage. 
 
+# Folder structure 
+
+- The entry point of the app is index.js
+- All the seed scripts are available in the seed scripts directory.
+- The data models are available in the models directory.
+- The routeHandlers for the rest api end points are in the routeHandlers directory 
+- The match-calculators directories contains modules that are used by the route handlers
+  to compute the match. 
+
+
