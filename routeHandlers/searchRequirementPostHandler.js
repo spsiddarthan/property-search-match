@@ -23,15 +23,6 @@ const getMatches = async (propertiesRedisReply, requirement) => {
   const properties = await Property.findAll({ where: { id: propertyIds } }).map(requirement => (requirement.dataValues));
 
   let matches = properties.map((property) => {
-    property.distanceMatchPercent = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
-    property.budgetMatchPercent = getBudgetMatchPercentage(property.price, requirement.minBudget, requirement.maxBudget);
-    property.budgetMatchPercent = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
-    property.bathroomMatchPercent = getBathroomMatchPercentage(property.noofbathrooms, requirement.minNoOfBathrooms, requirement.maxNoOfBathrooms);
-    property.bedroomMatchPercent = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
-
-
-
-
     property.matchPercentage = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
     property.matchPercentage += getBudgetMatchPercentage(property.price, requirement.minBudget, requirement.maxBudget);
     property.matchPercentage += getBathroomMatchPercentage(property.noofbathrooms, requirement.minNoOfBathrooms, requirement.maxNoOfBathrooms);
