@@ -26,8 +26,8 @@ const getMatches = async (requirementsRedisReply, property) => {
   let matches = searchRequirements.map((requirement) => {
     requirement.matchPercentage = getDistanceMatchPercentage(requirementDistanceMap[requirement.id]);
     requirement.matchPercentage += getBudgetMatchPercentage(property.price, requirement.minBudget, requirement.maxBudget);
-    requirement.matchPercentage += getBathroomMatchPercentage(property.noofbathrooms, requirement.minnofbathrooms, requirement.maxnofbathrooms);
-    requirement.matchPercentage += getBedroomMatchPercentage(property.noofbedrooms, requirement.minnofbedrooms, requirement.maxnofbedrooms);
+    requirement.matchPercentage += getBathroomMatchPercentage(property.noofbathrooms, requirement.minNoOfBathrooms, requirement.maxNoOfBathrooms);
+    requirement.matchPercentage += getBedroomMatchPercentage(property.noofbedrooms, requirement.minNoOfBedrooms, requirement.maxNoOfBedrooms);
     return requirement;
   });
 

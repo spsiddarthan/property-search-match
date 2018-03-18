@@ -26,7 +26,7 @@ const getMatches = async (propertiesRedisReply, requirement) => {
     property.distanceMatchPercent = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
     property.budgetMatchPercent = getBudgetMatchPercentage(property.price, requirement.minBudget, requirement.maxBudget);
     property.budgetMatchPercent = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
-    property.bathroomMatchPercent = getBathroomMatchPercentage(property.noofbathrooms, requirement.minnofbathrooms, requirement.maxnofbathrooms);
+    property.bathroomMatchPercent = getBathroomMatchPercentage(property.noofbathrooms, requirement.minNoOfBathrooms, requirement.maxNoOfBathrooms);
     property.bedroomMatchPercent = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
 
 
@@ -34,8 +34,8 @@ const getMatches = async (propertiesRedisReply, requirement) => {
 
     property.matchPercentage = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
     property.matchPercentage += getBudgetMatchPercentage(property.price, requirement.minBudget, requirement.maxBudget);
-    property.matchPercentage += getBathroomMatchPercentage(property.noofbathrooms, requirement.minnofbathrooms, requirement.maxnofbathrooms);
-    property.matchPercentage += getBedroomMatchPercentage(property.noofbedrooms, requirement.minnofbedrooms, requirement.maxnofbedrooms);
+    property.matchPercentage += getBathroomMatchPercentage(property.noofbathrooms, requirement.minNoOfBathrooms, requirement.maxNoOfBathrooms);
+    property.matchPercentage += getBedroomMatchPercentage(property.noofbedrooms, requirement.minNoOfBedrooms, requirement.maxNoOfBedrooms);
     return property;
   });
 
@@ -46,12 +46,12 @@ const getMatches = async (propertiesRedisReply, requirement) => {
 // End point to post a property
 module.exports = async (req, res) => {
   const {
-    minnofbathrooms, maxnofbathrooms, minnofbedrooms, maxnofbedrooms, minBudget, maxBudget, longitude, latitude,
+    minNoOfBathrooms, maxNoOfBathrooms, minNoOfBedrooms, maxNoOfBedrooms, minBudget, maxBudget, longitude, latitude,
   } = req.body;
-  if (!longitude || !latitude || (!minnofbathrooms && !maxnofbathrooms) || (!minnofbedrooms && !maxnofbedrooms)) { return res.status(400).end(); }
+  if (!longitude || !latitude || (!minNoOfBathrooms && !maxNoOfBathrooms) || (!minNoOfBedrooms && !maxNoOfBedrooms)) { return res.status(400).end(); }
 
   const requirement = await SearchRequirement.create({
-    minnofbathrooms, maxnofbathrooms, minnofbedrooms, maxnofbedrooms, minBudget, maxBudget, longitude, latitude,
+    minNoOfBathrooms, maxNoOfBathrooms, minNoOfBedrooms, maxNoOfBedrooms, minBudget, maxBudget, longitude, latitude,
   });
   // no need to add await here
   redisClient.geoadd('requirements', requirement.longitude, requirement.latitude, requirement.id);

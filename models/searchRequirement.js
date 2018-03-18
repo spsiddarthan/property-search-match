@@ -13,16 +13,16 @@ const SearchRequirement = dbConn.define('SearchRequirement', {
   maxBudget: {
     type: Sequelize.INTEGER,
   },
-  minnofbathrooms: {
+  minNoOfBathrooms: {
     type: Sequelize.INTEGER,
   },
-  maxnofbathrooms: {
+  maxNoOfBathrooms: {
     type: Sequelize.INTEGER,
   },
-  minnofbedrooms: {
+  minNoOfBedrooms: {
     type: Sequelize.INTEGER,
   },
-  maxnofbedrooms: {
+  maxNoOfBedrooms: {
     type: Sequelize.INTEGER,
   },
   longitude: {
@@ -37,6 +37,6 @@ const SearchRequirement = dbConn.define('SearchRequirement', {
 }, {
   timestamps: false,
 });
-// dbConn.sync({force: true});
+//dbConn.sync({force: true});
 module.exports = SearchRequirement;
 

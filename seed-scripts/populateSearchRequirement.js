@@ -14,12 +14,12 @@ const searchRequirements = cities.map((city) => {
   const maxBudget = minBudget ?
     prices[Math.floor(Math.random() * 11)] : prices[Math.floor(Math.random() * 10) + 1];
 
-  const minnofbedrooms = bedrooms[Math.floor(Math.random() * 11)];
-  const maxnofbedrooms = minnofbedrooms ?
+  const minNoOfBedrooms = bedrooms[Math.floor(Math.random() * 11)];
+  const maxNoOfBedrooms = minNofBedrooms ?
     bedrooms[Math.floor(Math.random() * 11)] : bedrooms[Math.floor(Math.random() * 10) + 1];
 
-  const minnofbathrooms = bedrooms[Math.floor(Math.random() * 11)];
-  const maxnofbathrooms = minnofbathrooms ?
+  const minNoOfBathrooms = bedrooms[Math.floor(Math.random() * 11)];
+  const maxNoOfBathrooms = minNoOfBathrooms ?
     bedrooms[Math.floor(Math.random() * 11)] : bedrooms[Math.floor(Math.random() * 10) + 1];
 
 
@@ -28,12 +28,13 @@ const searchRequirements = cities.map((city) => {
     latitude: parseFloat(city.lat),
     minBudget,
     maxBudget,
-    minnofbedrooms,
-    maxnofbedrooms,
-    minnofbathrooms,
-    maxnofbathrooms,
+    minNoOfBedrooms,
+    maxNoOfBedrooms,
+    minNoOfBathrooms,
+    maxNoOfBathrooms,
   };
 });
+
 
 // Since the size of the array was too large, the bulk operations was timeing out
 // hence dividing into two arrays
@@ -42,4 +43,3 @@ SearchRequirement.bulkCreate(
   searchRequirements.slice(100000, searchRequirements.length),
   { returning: true },
 );
-
