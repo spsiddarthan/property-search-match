@@ -23,6 +23,15 @@ const getMatches = async (propertiesRedisReply, requirement) => {
   const properties = await Property.findAll({ where: { id: propertyIds } }).map(requirement => (requirement.dataValues));
 
   let matches = properties.map((property) => {
+    property.distanceMatchPercent = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
+    property.budgetMatchPercent = getBudgetMatchPercentage(property.price, requirement.minBudget, requirement.maxBudget);
+    property.budgetMatchPercent = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
+    property.bathroomMatchPercent = getBathroomMatchPercentage(property.noofbathrooms, requirement.minnofbathrooms, requirement.maxnofbathrooms);
+    property.bedroomMatchPercent = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
+
+
+
+
     property.matchPercentage = getDistanceMatchPercentage(propertyDistanceMap[property.id]);
     property.matchPercentage += getBudgetMatchPercentage(property.price, requirement.minBudget, requirement.maxBudget);
     property.matchPercentage += getBathroomMatchPercentage(property.noofbathrooms, requirement.minnofbathrooms, requirement.maxnofbathrooms);
@@ -39,7 +48,7 @@ module.exports = async (req, res) => {
   const {
     minnofbathrooms, maxnofbathrooms, minnofbedrooms, maxnofbedrooms, minBudget, maxBudget, longitude, latitude,
   } = req.body;
-  if (!longitude || !latitude) { return res.status(400).end(); }
+  if (!longitude || !latitude || (!minnofbathrooms && !maxnofbathrooms) || (!minnofbedrooms && !maxnofbedrooms)) { return res.status(400).end(); }
 
   const requirement = await SearchRequirement.create({
     minnofbathrooms, maxnofbathrooms, minnofbedrooms, maxnofbedrooms, minBudget, maxBudget, longitude, latitude,
