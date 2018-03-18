@@ -37,6 +37,6 @@ const SearchRequirement = dbConn.define('SearchRequirement', {
 }, {
   timestamps: false,
 });
-//dbConn.sync({force: true});
+// dbConn.sync({force: true});
 module.exports = SearchRequirement;
 

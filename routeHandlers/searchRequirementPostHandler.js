@@ -1,36 +1,64 @@
 const SearchRequirement = require('../models/searchRequirement.js');
 const Property = require('../models/property.js');
 const redis = require('redis');
-const async = require('async');
+const _ = require('underscore');
 
 const redisClient = redis.createClient();
+const getDistanceMatchPercentage = require('../match-calculators/getDistanceMatchPercentage.js');
+const getBudgetMatchPercentage = require('../match-calculators/getBudgetMatchPercentage.js');
+// The logic to compute the percentage contribution is same for
+// bed rooms and bath rooms and hence adding a single file.
+const getBedroomMatchPercentage = require('../match-calculators/getBedroomMatchPercentage.js');
+const getBathroomMatchPercentage = require('../match-calculators/getBedroomMatchPercentage.js');
 
-const getMatches = async (propertyIds, requirement) => {
+const getMatches = async (propertiesRedisReply, requirement) => {
+  const propertyDistanceMap = {};
+
+  _.each(
+    propertiesRedisReply,
+    (propertyRedisArray) => {
+      propertyDistanceMap[propertyRedisArray[0]] = propertyRedisArray[1];
+    },
+  );
+  const propertyIds = propertiesRedisReply.map((propertyRedisArray => propertyRedisArray[0]));
   const properties = await Property.findAll({ where: { id: propertyIds } });
-  return properties;
+
+  let matches = properties.map((property) => {
+    property.dataValues.matchPercentage = getDistanceMatchPercentage(propertyDistanceMap[property.dataValues.id]);
+    property.dataValues.matchPercentage += getBudgetMatchPercentage(property.price, requirement.minBudget, requirement.maxBudget);
+    property.dataValues.matchPercentage += getBathroomMatchPercentage(property.noofbathrooms, requirement.minnofbathrooms, requirement.maxnofbathrooms);
+    property.dataValues.matchPercentage += getBedroomMatchPercentage(property.noofbedrooms, requirement.minnofbedrooms, requirement.maxnofbedrooms);
+    return property.dataValues;
+  });
+
+  matches = _.filter(matches, (match =>  match.matchPercentage > 40));
+  return matches;
 };
 
 // End point to post a property
 module.exports = async (req, res) => {
   const {
-    minnoofbathrooms, maxnoofbathrooms, minnoofbedrooms, maxnoofbedrooms, minBudget, maxBudget, longitude, latitude,
+    minnofbathrooms, maxnofbathrooms, minnofbedrooms, maxnofbedrooms, minBudget, maxBudget, longitude, latitude,
   } = req.body;
   if (!longitude || !latitude) { return res.status(400).end(); }
 
   const requirement = await SearchRequirement.create({
-    minnoofbathrooms, maxnoofbathrooms, minnoofbedrooms, maxnoofbedrooms, minBudget, maxBudget, longitude, latitude,
+    minnofbathrooms, maxnofbathrooms, minnofbedrooms, maxnofbedrooms, minBudget, maxBudget, longitude, latitude,
   });
   // no need to add await here
   redisClient.geoadd('requirements', requirement.longitude, requirement.latitude, requirement.id);
+
+  // now-get-all search requirements within the 10km radius
   redisClient.georadius(
-    'locations', requirement.longitude, requirement.latitude, 10, 'mi',
-    async (err, propertyIds) => {
-      const matches = await getMatches(propertyIds, requirement);
+    'locations', requirement.longitude, requirement.latitude, 10, 'mi', 'WITHDIST',
+    async (err, propertiesRedisReply) => {
+      // propertiesRedisReply is an array of arrays with each array first element being the propety id and the second element being
+      // the distance from the search requirement. Ex: [ [ '56549', '9.6348' ], [ '56550', '8.6498' ],...]
+      const matches = await getMatches(propertiesRedisReply, requirement);
       res.send({
         requirement,
         matches: matches || [],
       });
     },
   );
-  // now-get-all search requirements within the 10km radius
 };
