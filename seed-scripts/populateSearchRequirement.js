@@ -15,7 +15,7 @@ const searchRequirements = cities.map((city) => {
     prices[Math.floor(Math.random() * 11)] : prices[Math.floor(Math.random() * 10) + 1];
 
   const minNoOfBedrooms = bedrooms[Math.floor(Math.random() * 11)];
-  const maxNoOfBedrooms = minNofBedrooms ?
+  const maxNoOfBedrooms = minNoOfBedrooms ?
     bedrooms[Math.floor(Math.random() * 11)] : bedrooms[Math.floor(Math.random() * 10) + 1];
 
   const minNoOfBathrooms = bedrooms[Math.floor(Math.random() * 11)];
@@ -43,3 +43,4 @@ SearchRequirement.bulkCreate(
   searchRequirements.slice(100000, searchRequirements.length),
   { returning: true },
 );
+
